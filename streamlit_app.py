@@ -31,3 +31,19 @@ with st.expander("Detalles técnicos del proyecto"):
 - **Codificación:** variables categóricas con *dummy encoding* (`drop_first=True`).
 """
     )
+
+st.markdown(
+    """
+<style>
+div[data-testid="stButton"] > button {
+  background-color: transparent;
+  color: #1f77b4;
+  border: 1px solid #1f77b4;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+st.divider()
+if st.button("Comenzar: Motivación ➜"):
+    st.switch_page("pages/01_Motivacion.py")

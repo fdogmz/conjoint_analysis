@@ -68,7 +68,7 @@ st.write(
 )
 
 with st.container(border=True):
-    st.latex(r"\text{Rating}_i = \beta_0 + \text{efecto de Marca}_i + \text{efecto de Precio}_i + \text{efecto de Capacidad}_i + \varepsilon_i")
+    st.latex(r"\text{Rating}_i = \beta_0 + \beta_1\text{Marca}_i + \beta_2\text{Precio}_i + \beta_3\text{Capacidad}_i + \varepsilon_i")
     st.caption(
         "El modelo descompone la evaluación total del perfil en la contribución asociada a cada atributo."
     )
@@ -79,6 +79,11 @@ st.divider()
 try:
     # Ajuste del modelo
     model, partworths = fit_respondent_ols(df_resp)
+    attr_color_map = {
+        "Capacidad": px.colors.qualitative.Prism[0],
+        "Precio": px.colors.qualitative.Prism[1],
+        "Marca": px.colors.qualitative.Prism[2],
+    }
 
     # 1. Visualización de Part-worths (Utilidades Parciales)
     st.subheader("🎯 Utilidades Parciales (Part-worths)")
@@ -114,7 +119,7 @@ try:
         fig_pw = px.bar(
             pw_df, x="PartWorth", y="Nivel", color="Atributo",
             orientation='h', title="¿Cuánto valor aporta cada nivel?",
-            text_auto='.2f', color_discrete_sequence=px.colors.qualitative.Prism,
+            text_auto='.2f', color_discrete_map=attr_color_map,
             template="plotly_white"
         )
         
@@ -136,7 +141,8 @@ try:
         fig_imp = px.pie(
             imp_df, values='ImportanciaRelativa', names='Atributo',
             title="Peso en la decisión", hole=.4,
-            color_discrete_sequence=px.colors.qualitative.Pastel
+            color='Atributo',
+            color_discrete_map=attr_color_map,
         )
         fig_imp.update_layout(height=400, margin=dict(t=50, b=0, l=0, r=0))
         st.plotly_chart(fig_imp, use_container_width=True)
@@ -173,3 +179,19 @@ try:
 except Exception as e:
     st.error("No se pudo procesar el modelo. Verifica que el encuestado tenga variabilidad en sus respuestas.")
     st.exception(e)
+
+st.markdown(
+    """
+<style>
+div[data-testid="stButton"] > button {
+  background-color: transparent;
+  color: #1f77b4;
+  border: 1px solid #1f77b4;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+st.divider()
+if st.button("Siguiente: Simulación de Mercado ➜"):
+    st.switch_page("pages/05_Simulacion_de_Mercado.py")

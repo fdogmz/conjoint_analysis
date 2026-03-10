@@ -105,16 +105,28 @@ with c1:
 with c2:
     with st.container(border=True):
         st.markdown("**Sensibilidad al Precio**")
+        precio_order = ["Bajo", "Medio", "Alto"]
         avg_precio = df.groupby("Precio")["Rating"].mean().reset_index()
-        fig_p = px.line(avg_precio, x="Precio", y="Rating", markers=True, range_y=[0,10])
+        avg_precio["Precio"] = pd.Categorical(avg_precio["Precio"], categories=precio_order, ordered=True)
+        avg_precio = avg_precio.sort_values("Precio")
+        fig_p = px.line(
+            avg_precio, x="Precio", y="Rating", markers=True, range_y=[0,10],
+            category_orders={"Precio": precio_order}
+        )
         fig_p.update_layout(height=250, margin=dict(t=0, b=0, l=0, r=0))
         st.plotly_chart(fig_p, use_container_width=True)
 
 with c3:
     with st.container(border=True):
         st.markdown("**Valor de Capacidad**")
+        capacidad_order = ["64GB", "128GB", "256GB"]
         avg_cap = df.groupby("Capacidad")["Rating"].mean().reset_index()
-        fig_c = px.bar(avg_cap, x="Capacidad", y="Rating", color_discrete_sequence=['#00CC96'], text_auto='.1f', range_y=[0,10])
+        avg_cap["Capacidad"] = pd.Categorical(avg_cap["Capacidad"], categories=capacidad_order, ordered=True)
+        avg_cap = avg_cap.sort_values("Capacidad")
+        fig_c = px.bar(
+            avg_cap, x="Capacidad", y="Rating", color_discrete_sequence=['#00CC96'], text_auto='.1f', range_y=[0,10],
+            category_orders={"Capacidad": capacidad_order}
+        )
         fig_c.update_layout(height=250, margin=dict(t=0, b=0, l=0, r=0))
         st.plotly_chart(fig_c, use_container_width=True)
 
@@ -128,3 +140,19 @@ with st.expander("📝 Notas Metodológicas sobre este Dataset"):
     **Calidad del Dato:**
     Si observas una línea de precio muy plana, significa que en este grupo de analítica el precio no es un factor determinante, o que hay mucho 'ruido' en las respuestas.
     """)
+
+st.markdown(
+    """
+<style>
+div[data-testid="stButton"] > button {
+  background-color: transparent;
+  color: #1f77b4;
+  border: 1px solid #1f77b4;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+st.divider()
+if st.button("Siguiente: Modelado Individual ➜"):
+    st.switch_page("pages/04_Modelado_Individual.py")

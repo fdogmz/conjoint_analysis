@@ -61,27 +61,6 @@ for idx in range(n_products):
             scenario_profiles[scenario_names[idx]] = selected_levels
 
 
-'''
-scenario_profiles = {}
-selector_cols = st.columns(n_products)
-
-# Iconos para los productos
-icons = ["🟦", "🟥", "🟩"]
-
-for idx in range(n_products):
-    with selector_cols[idx]:
-        with st.container(border=True):
-            st.markdown(f"### {icons[idx]} Producto {idx + 1}")
-            selected_levels = {}
-            for attr, levels in ATTRIBUTES.items():
-                selected_levels[attr] = st.selectbox(
-                    f"{attr}:",
-                    options=levels,
-                    index=0,
-                    key=f"{attr}_prod_{idx + 1}",
-                )
-            scenario_profiles[f"Producto {idx + 1}"] = selected_levels
-'''
 
 st.divider()
 

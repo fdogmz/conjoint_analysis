@@ -148,3 +148,19 @@ st.success(
     "**Conclusión:** Para responder estas preguntas realizaremos un **estudio de mercado** "
     "mediante **análisis conjunto**, con el fin de estimar utilidades y sustentar el diseño del producto."
 )
+
+st.markdown(
+    """
+<style>
+div[data-testid="stButton"] > button {
+  background-color: transparent;
+  color: #1f77b4;
+  border: 1px solid #1f77b4;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+st.divider()
+if st.button("Siguiente: Metodología ➜"):
+    st.switch_page("pages/02_Metodologia.py")

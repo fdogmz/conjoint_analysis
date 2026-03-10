@@ -167,3 +167,19 @@ st.success("""
 **Siguiente paso:** una vez definidos el público objetivo, el canal y el tamaño de muestra,
 podemos diseñar el instrumento y comenzar el levantamiento de preferencias.
 """)
+
+st.markdown(
+    """
+<style>
+div[data-testid="stButton"] > button {
+  background-color: transparent;
+  color: #1f77b4;
+  border: 1px solid #1f77b4;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+st.divider()
+if st.button("Siguiente: Exploración de Datos ➜"):
+    st.switch_page("pages/03_Exploracion_de_Datos.py")
